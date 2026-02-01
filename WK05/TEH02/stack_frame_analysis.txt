@@ -1,0 +1,187 @@
+STACK FRAME ANALYSIS - TEH02 Assignment
+========================================
+
+All code segments start with an empty stack s and the following declarations:
+#include <stack>
+stack<char> s;
+char x, y, z;
+
+
+(a) STACK FRAMES FOR PART (a)
+============================
+
+s.push('a');
+    Stack: [a]    count=1
+
+s.push('b');
+    Stack: [a, b]    count=2
+
+s.push('c');
+    Stack: [a, b, c]    count=3
+
+s.pop( );
+    Stack: [a, b]    count=2
+
+s.pop( );
+    Stack: [a]    count=1
+
+s.pop( );
+    Stack: []    count=0 (empty)
+
+Final State: Empty stack
+
+
+(b) STACK FRAMES FOR PART (b)
+============================
+
+s.push('a');
+    Stack: [a]    count=1
+
+s.push('b');
+    Stack: [a, b]    count=2
+
+s.push('c');
+    Stack: [a, b, c]    count=3
+    x = uninitialized
+    y = uninitialized
+
+x = s.top( );
+    Stack: [a, b, c]    count=3
+    x = 'c'
+    y = uninitialized
+
+s.pop( );
+    Stack: [a, b]    count=2
+    x = 'c'
+    y = uninitialized
+
+y = s.top( );
+    Stack: [a, b]    count=2
+    x = 'c'
+    y = 'b'
+
+s.pop( );
+    Stack: [a]    count=1
+    x = 'c'
+    y = 'b'
+
+s.push(x);    // push 'c'
+    Stack: [a, c]    count=2
+    x = 'c'
+    y = 'b'
+
+s.push(y);    // push 'b'
+    Stack: [a, c, b]    count=3
+    x = 'c'
+    y = 'b'
+
+s.pop( );
+    Stack: [a, c]    count=2
+    x = 'c'
+    y = 'b'
+
+Final State: Stack contains [a, c] with 'c' on top
+Variables: x='c', y='b'
+
+
+(c) STACK FRAMES FOR PART (c)
+============================
+
+s.push('a');
+    Stack: [a]    count=1
+
+s.push('b');
+    Stack: [a, b]    count=2
+
+s.push('c');
+    Stack: [a, b, c]    count=3
+
+while (!s.empty( ))
+    s.pop( );
+
+    First iteration: !s.empty() is true
+        Stack: [a, b]    count=2
+
+    Second iteration: !s.empty() is true
+        Stack: [a]    count=1
+
+    Third iteration: !s.empty() is true
+        Stack: []    count=0 (empty)
+
+    Fourth iteration: !s.empty() is false
+        Loop exits
+
+Final State: Empty stack
+
+
+(d) STACK FRAMES FOR PART (d)
+============================
+
+s.push('a');
+    Stack: [a]    count=1
+    x = uninitialized
+
+s.push('b');
+    Stack: [a, b]    count=2
+    x = uninitialized
+
+while (!s.empty( )) {
+
+    First iteration:
+        x = s.top( );
+            Stack: [a, b]    count=2
+            x = 'b'
+
+        s.pop( );
+            Stack: [a]    count=1
+            x = 'b'
+
+    Second iteration:
+        x = s.top( );
+            Stack: [a]    count=1
+            x = 'a'
+
+        s.pop( );
+            Stack: []    count=0 (empty)
+            x = 'a'
+
+    Third iteration check: !s.empty() is false
+        Loop exits
+
+}
+
+s.push('c');
+    Stack: [c]    count=1
+    x = 'a'
+
+s.pop( );
+    Stack: []    count=0 (empty)
+    x = 'a'
+
+Final State: Empty stack
+Variable: x='a'
+
+
+SUMMARY TABLE
+=============
+
+Part (a): 
+  - Push 3 items, then pop 3 items
+  - Final stack: EMPTY
+  - Variables: unchanged
+
+Part (b):
+  - Push 3 items, store top in x, pop, store top in y, pop, push x, push y, pop
+  - Final stack: [a, c] with 'c' on top
+  - Variables: x='c', y='b'
+
+Part (c):
+  - Push 3 items, then pop all with while loop
+  - Final stack: EMPTY
+  - Variables: unchanged
+
+Part (d):
+  - Push 2 items, pop both with while loop (storing top in x each time), 
+    then push 'c', then pop it
+  - Final stack: EMPTY
+  - Variables: x='a' (last value popped)
