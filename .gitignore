@@ -2,8 +2,13 @@
 *.ilk
 *.pdb
 *.obj
-*.txt
-*.docx
-*.md
-
+*.csv
+*.o
+*.out
+.DS_Store
 .vscode/
+
+*.txt
+*.md
+*.docx
+*.pdf
